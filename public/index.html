@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ada Assist Lab</title>
+<style>
+body{margin:0;background:#f5f7fb;color:#172033;font-family:system-ui}
+.wrap{max-width:1000px;margin:auto;padding:28px 18px}
+.card{background:white;border:1px solid #e1e5ed;border-radius:15px;padding:18px}
+.chat{height:420px;overflow:auto;background:#f8f9fc;padding:12px;border-radius:12px}
+.msg{max-width:80%;padding:10px 13px;border-radius:12px;margin:8px 0;line-height:1.4}
+.user{margin-left:auto;background:#4f5bea;color:white}.bot{background:white;border:1px solid #e2e6ed}
+textarea{width:100%;height:80px;margin-top:12px;padding:10px;border:1px solid #d9deea;border-radius:10px;box-sizing:border-box;font:inherit}
+button,a{display:inline-block;margin-top:8px;padding:10px 14px;border-radius:10px;text-decoration:none}
+button{border:0;background:#4f5bea;color:white;font-weight:700}.links a{border:1px solid #dfe4ed;color:#3442bd;background:white;margin-right:7px}
+</style>
+</head>
+<body>
+<main class="wrap">
+<h1>🤖 Ada Assist</h1>
+<p>Laboratório local: Agent + RAG + Tools + MCP + Observabilidade.</p>
+<section class="card">
+<div id="chat" class="chat"><div class="msg bot">Experimente: “Qual é a performance da campanha?” ou “O que é CTR?”</div></div>
+<textarea id="input">Qual é a performance da campanha?</textarea>
+<button id="send">Enviar</button>
+<div class="links">
+<a href="/dashboard">📊 Dashboard</a>
+<a href="/mcp">🔌 MCP Lab</a>
+</div>
+</section>
+</main>
+<script>
+const chat=document.getElementById("chat"), input=document.getElementById("input");
+function add(t,c){const d=document.createElement("div");d.className="msg "+c;d.textContent=t;chat.appendChild(d);chat.scrollTop=chat.scrollHeight}
+document.getElementById("send").onclick=async()=>{
+ const text=input.value.trim(); if(!text)return;
+ add(text,"user"); input.value="";
+ const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:text})});
+ const d=await r.json(); add(d.answer||d.error,"bot");
+};
+</script>
+</body>
+</html>

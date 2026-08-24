@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard</title><style>
+body{margin:0;background:#f5f7fb;color:#172033;font-family:system-ui}.wrap{max-width:1000px;margin:auto;padding:28px 18px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:white;border:1px solid #e1e5ed;border-radius:14px;padding:16px}.label{font-size:12px;color:#718096}.v{font-size:24px;font-weight:750;margin-top:5px}
+pre{background:#111827;color:#e8edf5;padding:14px;border-radius:10px;white-space:pre-wrap;max-height:400px;overflow:auto}
+@media(max-width:700px){.grid{grid-template-columns:1fr 1fr}}
+</style></head>
+<body><main class="wrap"><a href="/">← voltar</a><h1>📊 Dashboard</h1>
+<div class="grid">
+<div class="card"><div class="label">Requests</div><div class="v" id="req">0</div></div>
+<div class="card"><div class="label">Success rate</div><div class="v" id="success">0%</div></div>
+<div class="card"><div class="label">Avg latency</div><div class="v" id="latency">0 ms</div></div>
+<div class="card"><div class="label">Errors</div><div class="v" id="errors">0</div></div>
+</div>
+<div class="card" style="margin-top:14px"><h2>Recent traces</h2><pre id="traces">Carregando...</pre></div>
+</main>
+<script>
+async function refresh(){const d=await fetch("/api/observability").then(r=>r.json());req.textContent=d.summary.requests;success.textContent=(d.summary.successRate*100).toFixed(1)+"%";latency.textContent=d.summary.avgLatencyMs+" ms";errors.textContent=d.summary.errors;traces.textContent=JSON.stringify(d.traces,null,2)}
+refresh();setInterval(refresh,1500)
+</script></body></html>

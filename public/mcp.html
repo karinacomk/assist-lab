@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MCP Lab</title>
+<style>
+body{margin:0;background:#f5f7fb;color:#172033;font-family:system-ui}.wrap{max-width:950px;margin:auto;padding:28px 18px}
+.card{background:white;border:1px solid #e1e5ed;border-radius:15px;padding:18px;margin:12px 0}
+.flow{display:grid;gap:7px}.node{padding:12px;border:1px solid #dfe4ed;border-radius:9px;text-align:center}.arrow{text-align:center}
+textarea{width:100%;height:90px;box-sizing:border-box;padding:10px;border:1px solid #d9deea;border-radius:10px;font:inherit}
+button{padding:10px 14px;border:0;border-radius:10px;background:#4f5bea;color:white;font-weight:700}
+pre{background:#111827;color:#e8edf5;padding:14px;border-radius:10px;white-space:pre-wrap}
+a{color:#3947bf}
+</style></head>
+<body><main class="wrap">
+<a href="/">← voltar</a><h1>🔌 MCP Lab</h1>
+<div class="card"><h2>Arquitetura</h2>
+<div class="flow">
+<div class="node">👤 Usuário</div><div class="arrow">↓</div>
+<div class="node">🧠 Agent</div><div class="arrow">↓</div>
+<div class="node">MCP Client</div><div class="arrow">↓</div>
+<div class="node">MCP Server</div><div class="arrow">↓</div>
+<div class="node">Tools / RAG / Sistemas</div>
+</div></div>
+<div class="card"><h2>Tools disponíveis</h2><pre id="tools">Carregando...</pre></div>
+<div class="card"><h2>Teste</h2>
+<textarea id="input">Qual é a performance da campanha?</textarea><br>
+<button id="send">Executar</button>
+<pre id="output">O resultado aparecerá aqui.</pre>
+</div>
+</main>
+<script>
+async function load(){const d=await fetch("/api/mcp/tools").then(r=>r.json());tools.textContent=d.tools.map(t=>t.name+" — "+t.description).join("\n")}
+send.onclick=async()=>{const message=input.value;output.textContent="Executando...";const d=await fetch("/api/mcp/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message})}).then(r=>r.json());output.textContent=JSON.stringify(d,null,2)}
+load();
+</script>
+</body></html>
