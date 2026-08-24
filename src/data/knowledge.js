@@ -1,8 +1,8 @@
 export const documents = [
   {
     id: "ads-001",
-    title: "Globo Ads",
-    text: "Globo Ads oferece soluções de publicidade digital e de vídeo para diferentes objetivos de campanha."
+    title: "Ada Ads",
+    text: "Ada Ads oferece soluções de publicidade digital e de vídeo para diferentes objetivos de campanha."
   },
   {
     id: "ads-002",
