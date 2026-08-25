@@ -1,4 +1,4 @@
-# Ada Assist Lab
+# Assist Lab
 
 Laboratório local para estudar **Agent + RAG + Tools + MCP + Observabilidade + Evaluation**.
 
